@@ -1,10 +1,11 @@
--- Read CSV file, split it to tables, extract values from tables
--- "gdp.csv" -> [Table] -> [Value] -> "readable.csv" 
+-- Table -> datapoints
 
 module Datapoints where
 
+import Data.List (isInfixOf)
 import Row
 
+-- WONTFIX: same as module type
 type Row = [String]
 type Rows = [Row]
 type RowFormat = [Char]
@@ -14,7 +15,6 @@ data Table = Table {
     dataRows :: Rows
     }
     deriving (Show)    
-
 
 -- WONTFIX: assume all datarows have same number of columns
 ncol :: [[a]] -> Int
@@ -34,21 +34,31 @@ getFormat t = colToFormat $ ncol (dataRows t)
 
 getValues :: Table -> [(Char, String, Int, String)]
 -- todo: must include variable information
-getValues t = split (getFormat t) (dataRows t)
+getValues t = splitMany (getFormat t) (dataRows t)
 
-h1 = [["GDP"], ["% change to year earlier"]]       
-d1 = [["2017","100,6","102,5","102,2","100,9"], ["2018","101,3","101,9","101,5",""]]
-t1 = Table h1 d1
-p1 = Datapoint "GDP" "bln_rub" 2017 Nothing (Annual::Frequency) 60000
-p2 = Datapoint {name = "GDP", unit = "bln_rub", year = 2017, month = Nothing, freq = Annual, value = 60000}  
-vs = getValues(t1)    
+data Map = Map 
+    { label :: String,
+      spells :: [String]  
+    } deriving (Show)
 
--- next: 
---   extract label
---   add label to data
---   export data to file
---   read some actual data
---   add .cabal
---   add .tests
---   make a separate repo
---   use Travis
+nameMap = [
+      Map "GDP" ["Gross domestic product"]
+    , Map "INDPRO" ["Industrial production"]
+    ]
+
+-- converts nameMap and unitMap to plain lists of tuples
+asTuples :: [Map] -> [(String, String)]   
+asTuples maps = concatMap f maps
+    where f (Map label spells) = [(spell, label) | spell <- spells]
+
+findAll :: [(String, String)] -> String -> [String]
+findAll mapper header = [label | tup@(spell, label) <- mapper,  
+                                 spell `isInfixOf` header]
+-- Assumption: will use just first match                                 
+findFirst mapper header = case findAll mapper header of 
+    [] -> Nothing
+    (x:_) -> Just x  
+
+makeFinder maps = \header -> findFirst (asTuples maps) header 
+getLabel = makeFinder nameMap
+b = getLabel "Gross domestic product"

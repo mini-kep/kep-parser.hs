@@ -26,7 +26,7 @@ isIdentical var name unit = (makeVariable name unit) == var
 -- associative stucture.     
 data Map = Map 
     { label :: String,
-      texts :: [String] -- note: can use non-empty List 
+      texts :: [String]  
     } deriving (Show)
 
 nameMaps = [
@@ -43,6 +43,7 @@ unitMaps = [
 --          to list of tuples which are used for searching a header
 asTuples :: Map -> [(String, String)]   
 asTuples (Map label texts) = [(text, label) | text <- texts]  
+concatMap asTuples
 
 findAllKeys :: [(String, String)] -> String -> [String]
 findAllKeys mapper header = [key | tup@(text, key) <- mapper,  
