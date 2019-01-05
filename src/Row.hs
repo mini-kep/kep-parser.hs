@@ -1,6 +1,6 @@
 -- Split rows to values
 
-module Row (split) where
+module Row (splitMany) where
 
 type RowFormat = [Char]
 
@@ -22,9 +22,7 @@ splitMany fmt rows = (concat $ map f' rows)
     where 
         f' = splitOne (expand fmt)
 
-split = splitMany
-
-main = (putStrLn $ show [bool_1, bool_2])
-    where 
-        bool_1 = split "ahh" [[2017, 100, 50, 50], [2018, 120, 40, 80]] == [('a',2017,1,100),('h',2017,1,50),('h',2017,2,50),('a',2018,1,120),('h',2018,1,40),('h',2018,2,80)]
-        bool_2 = split "aqqqq" [[2020, 100, 10, 40, 25, 25]] == [('a',2020,1,100),('q',2020,1,10),('q',2020,2,40),('q',2020,3,25),('q',2020,4,25)]
+-- main = (putStrLn $ show [bool_1, bool_2])
+--     where 
+--         bool_1 = splitMany "ahh" [[2017, 100, 50, 50], [2018, 120, 40, 80]] == [('a',2017,1,100),('h',2017,1,50),('h',2017,2,50),('a',2018,1,120),('h',2018,1,40),('h',2018,2,80)]
+--         bool_2 = splitMany "aqqqq" [[2020, 100, 10, 40, 25, 25]] == [('a',2020,1,100),('q',2020,1,10),('q',2020,2,40),('q',2020,3,25),('q',2020,4,25)]

@@ -1,10 +1,12 @@
 -- Read CSV file, split it to tables, extract values from tables
 -- "gdp.csv" -> [Table] -> [Value] -> "readable.csv" 
 
+module Datapoints where
+
 import Row
 
 type Row = [String]
-type Rows = [[String]]
+type Rows = [Row]
 type RowFormat = [Char]
 
 data Table = Table {
@@ -13,22 +15,8 @@ data Table = Table {
     }
     deriving (Show)    
 
-data Frequency = Annual | Quarter | Month deriving (Show)   
 
-data Datapoint = Datapoint {
-    name :: String,
-    unit :: String,
-    year :: Int,
-    month :: Maybe Int,
-    freq :: Frequency,
-    value :: Float
-    }    
-    deriving (Show)
-
-splitRow :: RowFormat -> Row -> [Datapoint]
-splitRow "qqqq" row = [p1, p1, p2, p2] where year = head(row)
-
--- assume all datarows have same number of columns
+-- WONTFIX: assume all datarows have same number of columns
 ncol :: [[a]] -> Int
 ncol rows = (length $ head rows) - 1 
 
