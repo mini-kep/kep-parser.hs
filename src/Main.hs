@@ -1,18 +1,25 @@
 -- Extract data from semi-structured CSV file
 
--- Pseudocode:
+-- Pseudocode for one table:
+--   get variable label from table header  
+--   get values from table datarows
+--   add label to values
+--   emit values with label (=datapoints)
+--   not done: clean table cell contents
+--   not done: kill empty table cells
+--   not done: check for duplicates
+
+-- Pseudocode for many tables:
    
 -- Read CSV file "gdp.csv" 
--- Split file contents to [Table] 
--- Repeat for many tables:
---   Assign labels to tables using variable name and unit maps 
---   Extract datapoints from tables
---   Add table label to datapoints
--- Emit all datapoints 
--- Save "data.csv" 
+-- [ ] Split file contents to [Table] data structure 
+-- [ ] Repeat for many tables:
+--    [+] Assign labels to tables using variable name and unit maps 
+--    [ ] Extract datapoints from tables
+-- [ ] Emit all datapoints 
+-- [ ] Save all datapoints  to "data.csv" 
 
 module Main where
-
 
 import qualified Data.ByteString.Lazy as BL  
 
@@ -83,3 +90,24 @@ GDP_yoy	2018	q	4
 --  [ ] add /tests
 --  [+] make a separate repo
 --  [ ] use Travis
+
+{-
+data Datapoint = Datapoint {
+    label :: String,
+    year :: a,
+    month :: Int,
+    freq :: Char,
+    value :: a
+    }    
+    deriving (Show)
+
+
+    sam = [["GDP"], 
+      ["% change to year earlier"],
+      ["2017","100,6","102,5","102,2","100,9"]],
+      ["2018","101,3","101,9","101,5",""],
+      ["GDP, bln run (current price)"],
+      ["2017","20549,8","22035,1","23948,8","25503,4"],
+      ["2018","22239,4","24846,6","27007,2",""]
+    ]
+    -}
