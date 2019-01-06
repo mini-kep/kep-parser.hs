@@ -1,3 +1,55 @@
+module Label where
+
+import Data.List (isInfixOf)
+
+data Map = Map  
+    { label :: String,
+      texts :: [String]  
+    } deriving (Show)
+
+nameMap = [
+      Map "GDP" ["Gross domestic product", "ВВП"]
+    , Map "INDPRO" ["Industrial production"]
+    ]
+
+unitMap = [
+      Map "rog" ["% change to previous period"],
+      Map "yoy" ["% change to previous year"]
+    ]
+    
+-- convert nameMap and unitMap to lists of tuples
+asTuples :: [Map] -> [(String, String)]
+asTuples maps = concatMap f maps
+    where f (Map label texts) = [(t, label) | t <- texts]
+
+findAll :: [(String, String)] -> String -> [String]
+findAll mapper header = [label | tup@(spell, label) <- mapper,
+                         spell `isInfixOf` header]
+
+-- assumption: will use just first match                                 
+findFirst mapper header = case findAll mapper header of 
+    [] -> Nothing
+    (x:_) -> Just x  
+
+makeFinder map = \header -> findFirst (asTuples map) header 
+getLabel = makeFinder nameMap
+getUnit = makeFinder unitMap
+title = "Gross domestic product, % change to previous period"
+lab' = getLabel title
+unit' = getUnit title
+
+isIdentical :: a -> a -> Bool 
+isIdentical a b = (a==b)
+
+raise x = error ("Something wrong with :" ++ show x) 
+
+assertEq :: a -> a -> Bool
+assertEq a b = (if (isIdentical a b) then True else raise (a, b))
+
+a = assertEq 1 0 
+
+{-
+
 -- Parse a string like "Gross domestic product, bln rub"
 -- into a data structure that contains labels "GDP" and "bln_rub"
 
@@ -26,7 +78,7 @@ isIdentical var name unit = (makeVariable name unit) == var
 -- associative stucture.     
 data Map = Map 
     { label :: String,
-      texts :: [String] -- note: can use non-empty List 
+      texts :: [String]  
     } deriving (Show)
 
 nameMaps = [
@@ -43,6 +95,7 @@ unitMaps = [
 --          to list of tuples which are used for searching a header
 asTuples :: Map -> [(String, String)]   
 asTuples (Map label texts) = [(text, label) | text <- texts]  
+concatMap asTuples
 
 findAllKeys :: [(String, String)] -> String -> [String]
 findAllKeys mapper header = [key | tup@(text, key) <- mapper,  
@@ -79,3 +132,5 @@ main = do
 
 -- Note: ReadP at 
 -- http://hackage.haskell.org/package/base-4.11.1.0/docs/Text-ParserCombinators-ReadP.html
+
+-}

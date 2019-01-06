@@ -11,11 +11,10 @@ expand :: RowFormat -> [(Char, Int)]
 expand pat = [(c, count c (take (i+1) pat)) | (c, i) <- zip pat [0..]]
 
 splitOne :: [(Char, Int)] -> [a] -> [(Char, a, Int, a)]
-splitOne pattern row = zipWith merge pattern values
+splitOne pattern row = zipWith merge pattern (tail row)
     where 
         merge (freq, period) x = (freq, year, period, x)
         year = head row
-        values = tail row
 
 splitMany :: RowFormat -> [[a]] -> [(Char, a, Int, a)]
 splitMany fmt rows = (concat $ map f' rows)

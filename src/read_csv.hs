@@ -11,10 +11,6 @@
     -- from cassava
     import Data.Csv
     
-    -- >>> import Data.ByteString (ByteString)
-    -- >>> decode NoHeader "John,27\r\nJane,28\r\n" :: Either String (Vector (Vector ByteString))
-    -- Right [["John","27"],["Jane","28"]]
-    
     type ByteMatrix = V.Vector (V.Vector BL.ByteString)
 
     myOptions = defaultDecodeOptions {
