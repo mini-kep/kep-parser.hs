@@ -26,11 +26,11 @@ main = do
 
 
 -- next: 
---   extract label
+--   + extract label
 --   add label to data
 --   export data to file
 --   read some actual data
 --   + add .cabal
 --   add .tests
---   make a separate repo
+--   + make a separate repo
 --   use Travis

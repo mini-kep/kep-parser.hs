@@ -15,7 +15,7 @@ nameMap = [
 
 unitMap = [
       Map "rog" ["% change to previous period"],
-      Map "yoy" ["% change to previous year"]
+      Map "yoy" ["% change to year earlier"]
     ]
     
 -- convert nameMap and unitMap to lists of tuples
@@ -37,6 +37,7 @@ makeFinder map = \header -> findFirst (asTuples map) header
 getName = makeFinder nameMap
 getUnit = makeFinder unitMap
 
+-- todo: convert to unit test
 main :: IO ()
 main = do 
     eq (Just "GDP") (getName title)
