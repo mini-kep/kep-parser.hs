@@ -13,20 +13,24 @@ expand :: RowFormat -> [(Char, Int)]
 expand pat = [(c, count c (take (i+1) pat)) | (c, i) <- zip pat [0..]]
 
 splitOne :: [(Char, Int)] -> [a] -> [(a, Char, Int, a)]
-splitOne pattern row = zipWith merge pattern (tail row)
-    where 
-        merge (freq, period) x = (year, freq, period, x)
-        year = head row
+splitOne pattern row = split' pattern (head row) (tail row)
+
+split':: [(Char, Int)] -> a -> [a] -> [(a, Char, Int, a)]    
+split' pattern year values = zipWith merge pattern values
+    where merge (freq, period) x = (year, freq, period, x)
 
 splitMany :: RowFormat -> [[a]] -> [(a, Char, Int, a)]
 splitMany fmt rows = (concat $ map f' rows)
     where 
         f' = splitOne (expand fmt)
 
--- todo: convert to unit test        
+-- todo: convert to unit test  
+      
 main = do 
-    putStrLn m1
-    putStrLn m2
+    putStrLn $ msg a b
+    putStrLn $ msg c d
     where 
-        m1 = msg (splitMany "ahh" [[2017, 100, 50, 50], [2018, 120, 40, 80]]) [('a',2017,1,100),('h',2017,1,50),('h',2017,2,50),('a',2018,1,120),('h',2018,1,40),('h',2018,2,80)]
-        m2 = msg (splitMany "aqqqq" [[2020, 100, 10, 40, 25, 25]]) [('a',2020,1,100),('q',2020,1,10),('q',2020,2,40),('q',2020,3,25),('q',2020,4,25)]
+        a = splitMany "ahh" [[2017, 100, 50, 50], [2018, 120, 40, 80]]
+        b = [(2017,'a',1,100),(2017,'h',1,50),(2017,'h',2,50),(2018,'a',1,120),(2018,'h',1,40),(2018,'h',2,80)]
+        c = splitMany "aqqqq" [[2020, 100, 10, 40, 25, 25]]
+        d = [(2020,'a',1,100),(2020,'q',1,10),(2020,'q',2,40),(2020,'q',3,25),(2020,'q',4,25)]

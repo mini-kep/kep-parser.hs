@@ -31,3 +31,5 @@
         csvData <- BL.readFile "gdp.csv"
         let m = toMatrix csvData
         putStrLn $ useRight m
+
+-- TODO: merge this to file        

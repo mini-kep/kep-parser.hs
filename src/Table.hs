@@ -1,18 +1,13 @@
--- Table -> datapoints
+-- Table with header rows and data rows
 
 module Table where
 
-import Data.List (intercalate)
-
 import Microtest
-import Row
-import qualified Label
 
-data Table = Table {
-    headerRows :: [[String]],
-    dataRows :: [[String]]
-    }
-    deriving (Show)    
+import Types
+import Row
+import Header
+import qualified Label  
 
 getFormat :: Table -> String
 -- WONTFIX: assume all datarows have same number of columns
@@ -30,23 +25,14 @@ colToFormat n = case n of
     where
        m12 = concat (replicate 12 "m")
 
-getValues :: Table -> [(Char, String, Int, String)]
--- todo: must include variable information
-getValues t = splitMany (getFormat t) (dataRows t)
+--nolabelValues :: Table -> [(a, Char, Int, a)]
+nolabelValues t = splitMany (getFormat t) (dataRows t)
 
-spaces = intercalate " "
+--addLabel ::  [(a, Char, Int, a)] -> String -> [(String, a, Char, Int, a)]
+addLabel values lab = [(lab, y, f, p, x) | (y, f, p, x) <- values]
 
-titles :: Table -> [String]
-titles t = map spaces (headerRows t)
-
-title :: Table -> String
-title t = spaces (titles t)
-
-name :: Table -> Maybe String
-name t = Label.getName $ title t
-
-unit :: Table -> Maybe String
-unit t = Label.getUnit $ title t
+--getValues :: Table -> [(String, a, Char, Int, a)]
+getValues t = addLabel (nolabelValues t) $ label (name t) (unit t)
 
 -- todo: convert to unit test
 h1 = [["ВВП", "", ""], ["% change to year earlier", "", ""]]       
