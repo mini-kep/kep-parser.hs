@@ -64,7 +64,7 @@ raise x = error ("Something wrong with: " ++ show x)
 
 main = do
     if flag then putStrLn $ show x else
-      raise x   
+        raise x   
     return ()
 
 -- NEXT: what is a path to learn CSV file handling with cassava?

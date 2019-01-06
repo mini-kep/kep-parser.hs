@@ -4,6 +4,17 @@
 
 
 
+data Frequency = Annual | Quarter | Month deriving (Show)   
+
+data Datapoint = Datapoint {
+    name :: String,
+    unit :: String,
+    year :: Int,
+    month :: Maybe Int,
+    freq :: Frequency,
+    value :: Float
+    }    
+    deriving (Show)
 
 
 -------------------------------
