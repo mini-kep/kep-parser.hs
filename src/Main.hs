@@ -35,6 +35,14 @@ h1 = [["ВВП"], ["% change to year earlier"]]
 d1 = [["2017","100,6","102,5","102,2","100,9"], ["2018","101,3","101,9","101,5",""]]
 t1 = Table h1 d1
 vs = getValues(t1)
+
+parse :: String -> String -> IO()
+parse sourceFilename outputFilename = do
+    -- read file <sourceFilename> 
+    -- apply parsing to its contents
+    -- save as <outputFilename>
+    return ()
+
 main = do 
     Prelude.putStrLn $ show (encode' vs)
     BL.writeFile "data.csv" (encode' vs)  
