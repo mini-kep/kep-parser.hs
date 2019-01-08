@@ -22,10 +22,6 @@
     toMatrix bytestring = 
         decodeWith myOptions NoHeader bytestring -- :: Either String ByteMatrix 
 
-    -- work inside Either monad
-    useRight (Right x) = show x  
-    useRight (Left x) = error x  
-
     main :: IO ()
     main = do 
         csvData <- BL.readFile "gdp.csv"
