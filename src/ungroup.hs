@@ -10,8 +10,8 @@
 -- intersperse s (x:xs) = (x : s : intersperse s xs)
 
 f :: (a -> a -> Bool) -> [a] -> [[a]]
-f _   []     = []
-f _   (x:[])  = (x:y)
+--f _   []      = []
+--f _   (x:[])  = x
 f sep (x:y:xs) = if (sep x y) then (x : (succ (y:xs))) else ((x:y) : (succ xs))
     where succ = f sep
 
