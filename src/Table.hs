@@ -1,23 +1,25 @@
 -- Table with header rows and data rows
 
-module Table where
+module Table (getValues) where
 
 import Microtest
 
-import Types
+import Convert
 import Row
 import Header
 import qualified Label  
-
+ 
 getFormat :: Table -> String
 -- WONTFIX: assume all datarows have same number of columns
-getFormat t = colToFormat $ ncol (head (dataRows t)) 
+getFormat t = colToFormat $ ncol (head (datarows t)) 
 
 ncol :: [a] -> Int
 ncol row = (length row) - 1 
 
 colToFormat :: Int -> String
-colToFormat n = case n of 
+colToFormat n = case n of
+    1 -> "a"
+    2 -> "hh" 
     4 -> "qqqq"
     5 -> "aqqqq"
     12 -> m12
@@ -26,7 +28,7 @@ colToFormat n = case n of
        m12 = concat (replicate 12 "m")
 
 --nolabelValues :: Table -> [(a, Char, Int, a)]
-nolabelValues t = splitMany (getFormat t) (dataRows t)
+nolabelValues t = splitMany (getFormat t) (datarows t)
 
 --addLabel ::  [(a, Char, Int, a)] -> String -> [(String, a, Char, Int, a)]
 addLabel values lab = [(lab, y, f, p, x) | (y, f, p, x) <- values]

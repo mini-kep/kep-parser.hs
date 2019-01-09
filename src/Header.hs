@@ -2,16 +2,18 @@ module Header (name, unit, label) where
 
 import Data.List (intercalate)
 
-import Types
+import Convert
 import Label    
 
-spaces = intercalate " "
-
+-- ERROR:
+--    Variable not in scope: headers :: Table -> [[[Char]]]
+--     |
+--  10 | titles t = map (intercalate " ") (headers t)
 titles :: Table -> [String]
-titles t = map spaces (headerRows t)
+titles t = map (intercalate " ") (headers t)
 
 title :: Table -> String
-title t = spaces (titles t)
+title t = intercalate " " (titles t)
 
 name :: Table -> Maybe String
 name t = Label.getName $ title t
@@ -22,4 +24,4 @@ unit t = Label.getUnit $ title t
 -- isDefined t = (name t /= Nothing) && (unit t /= Nothing)
 
 label (Just name) (Just unit) = name ++ "_" ++ unit
-
+label _ _ = "UNKNOWN"
