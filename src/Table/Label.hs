@@ -1,36 +1,31 @@
-module Table.Label (getName, getUnit, compose) where
+module Table.Label (getName, getUnit, composeLabel, Label) where
 
 import Data.List (isInfixOf)
-import Map 
+import Map (nameMap, unitMap, Tag)
 
--- | Convert nameMap and unitMap to lists of tuples
-asTuples :: [Map] -> [(String, String)]
-asTuples maps = concatMap f maps
-    where f (Map label texts) = [(tx, label) | tx <- texts] ++ [(label, label)]
+type TagDict = [(String, Tag)] 
 
-findAll :: [(String, String)] -> String -> [String]
-findAll mapper header = [lab | (tx, lab) <- mapper, tx `isInfixOf` header]
+findAll :: TagDict -> String -> [String]
+findAll mapper header = [label | (text, label) <- mapper, text `isInfixOf` header]
 
--- Assumption: will use just first match and ignore any other matches                                 
+-- | Will use just first match and ignore any other matches                                 
+findFirst :: TagDict -> String -> Maybe Tag 
 findFirst mapper header = case findAll mapper header of 
     [] -> Nothing
     (x:_) -> Just x  
 
-makeFinder map = \header -> findFirst (asTuples map) header 
+makeFinder :: TagDict -> (String -> Maybe Tag)
+makeFinder tags = \header -> findFirst tags header 
+
+getName :: String -> Maybe Tag
 getName = makeFinder nameMap
+
+getUnit :: String -> Maybe Tag
 getUnit = makeFinder unitMap
 
-compose :: Maybe String -> Maybe String -> String
-compose (Just name) (Just unit) = name ++ "_" ++ unit
-compose Nothing (Just unit)     = "^" ++ unit
-compose (Just name) Nothing     = name ++ "^"
-compose _ _                     = "UNKNOWN"
-
-
--- -- move to test
--- main :: IO ()
--- main = do 
---     Microtest.eq (Just "GDP") (getName title)
---     Microtest.eq (Just "rog") (getUnit title)
---     where 
---         title = "Gross domestic product, % change to previous period"
+type Label = String 
+composeLabel :: Maybe Tag -> Maybe Tag -> Label
+composeLabel (Just name) (Just unit) = name ++ "_" ++ unit
+composeLabel Nothing (Just unit)     = "..._" ++ unit
+composeLabel (Just name) Nothing     = name ++ "_..."
+composeLabel _ _                     = "UNKNOWN"

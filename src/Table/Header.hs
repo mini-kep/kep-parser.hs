@@ -2,7 +2,7 @@ module Table.Header (getLabel) where
 
 import Data.List (intercalate)
 import Table.Make (Table(..))
-import qualified Table.Label as Label    
+import qualified Table.Label as Label
 
 headerLines :: Table -> [String]
 headerLines t = map (intercalate " ") (headers t)
@@ -24,4 +24,4 @@ isJust _        = False
 --isDefined t = isJust (name t) && isJust (unit t)
 
 getLabel :: Table -> String
-getLabel t = Label.compose (name t) (unit t)
+getLabel t = Label.composeLabel (name t) (unit t)
