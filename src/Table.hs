@@ -2,8 +2,6 @@
 
 module Table (getValues) where
 
-import Microtest
-
 import Convert
 import Row
 import Header
@@ -44,7 +42,7 @@ vs = getValues(t1)
 n' = name(t1)
 u' = unit(t1)
 
-main :: IO ()
-main = do 
-    eq (Just "GDP") n'
-    eq (Just "yoy") u'
+-- main :: IO ()
+-- main = do 
+--     eq (Just "GDP") n'
+--     eq (Just "yoy") u'

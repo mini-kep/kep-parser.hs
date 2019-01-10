@@ -32,11 +32,11 @@ toStrings (Right v) = V.toList $ V.map (V.toList . (V.map unpack)) v
 toStrings (Left m) = error m
 
 main = do 
-    s <- BL.readFile "gdp.csv"
+    s <- BL.readFile "gdp.txt"
     -- action with data
     let k = (toStrings . toMatrix) s
     -- print k
     let vs = (concatMap getValues . makeTables) k  
     -- print vs
     -- end action 
-    BL.writeFile "gdp.txt" $ encode' vs
+    BL.writeFile "gdp.csv" $ encode' vs

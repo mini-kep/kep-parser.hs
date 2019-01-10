@@ -1,10 +1,16 @@
-GDP
-% change to year earlier
-2017	100,6	102,5	102,2	100,9
-2018	101,3	101,9	101,5	
-
-GDP
-bln rub (in current prices)
-2017	20549,8	22035,1	23948,8	25503,4
-2018	22239,4	24846,6	27007,2	
-
+GDP_yoy	2017	q	1	100,6
+GDP_yoy	2017	q	2	102,5
+GDP_yoy	2017	q	3	102,2
+GDP_yoy	2017	q	4	100,9
+GDP_yoy	2018	q	1	101,3
+GDP_yoy	2018	q	2	101,9
+GDP_yoy	2018	q	3	101,5
+GDP_yoy	2018	q	4	
+GDP_bln_rub	2017	q	1	20549,8
+GDP_bln_rub	2017	q	2	22035,1
+GDP_bln_rub	2017	q	3	23948,8
+GDP_bln_rub	2017	q	4	25503,4
+GDP_bln_rub	2018	q	1	22239,4
+GDP_bln_rub	2018	q	2	24846,6
+GDP_bln_rub	2018	q	3	27007,2
+GDP_bln_rub	2018	q	4	
