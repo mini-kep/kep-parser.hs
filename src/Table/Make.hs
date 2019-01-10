@@ -1,4 +1,4 @@
-module Convert (makeTables, Table(..)) where
+module Table.Make (makeTables, Table(..)) where
 
 import Data.List.Split
 
@@ -31,5 +31,5 @@ toTable rows = Table a b
 makeTables = map toTable . groupRowsByTable . map toRow
 
 -- move to test
-list' =  [["GDP"],["subtitle"],["2017","100,6"],["2018","101,3"],["CPI"],["1999","120,2"]]
-t' = makeTables list'
+-- list' =  [["GDP"],["subtitle"],["2017","100,6"],["2018","101,3"],["CPI"],["1999","120,2"]]
+-- t' = makeTables list'

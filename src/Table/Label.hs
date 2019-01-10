@@ -1,4 +1,4 @@
-module Label (getName, getUnit) where
+module Table.Label (getName, getUnit, compose) where
 
 import Data.List (isInfixOf)
 import Map 
@@ -19,6 +19,13 @@ findFirst mapper header = case findAll mapper header of
 makeFinder map = \header -> findFirst (asTuples map) header 
 getName = makeFinder nameMap
 getUnit = makeFinder unitMap
+
+compose :: Maybe String -> Maybe String -> String
+compose (Just name) (Just unit) = name ++ "_" ++ unit
+compose Nothing (Just unit)     = "^" ++ unit
+compose (Just name) Nothing     = name ++ "^"
+compose _ _                     = "UNKNOWN"
+
 
 -- -- move to test
 -- main :: IO ()

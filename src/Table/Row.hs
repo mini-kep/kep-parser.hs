@@ -1,26 +1,27 @@
 -- Split rows to values
 
-module Row (splitMany) where
+module Table.Row (splitMany) where
 
 type RowFormat = [Char]
+type RowPattern = [(Char, Int)]
+type Cell = String        
+type Value = [(Cell, Char, Int, Cell )]
 
 count :: Char -> String -> Int
 count letter str = length $ filter (== letter) str
 
-expand :: RowFormat -> [(Char, Int)]
+expand :: RowFormat -> RowPattern
 expand pat = [(c, count c (take (i+1) pat)) | (c, i) <- zip pat [0..]]
 
-splitOne :: [(Char, Int)] -> [a] -> [(a, Char, Int, a)]
-splitOne pattern row = split' pattern (head row) (tail row)
-
-split':: [(Char, Int)] -> a -> [a] -> [(a, Char, Int, a)]    
+--split':: RowPattern -> Cell -> [Cell] -> [Value]    
 split' pattern year values = zipWith merge pattern values
     where merge (freq, period) x = (year, freq, period, x)
 
-splitMany :: RowFormat -> [[a]] -> [(a, Char, Int, a)]
-splitMany fmt rows = (concat $ map f' rows)
-    where 
-        f' = splitOne (expand fmt)
+--splitOne' :: RowPattern -> [Cell] -> [Value]
+splitOne' pattern row = split' pattern (head row) (tail row)
+
+--splitMany :: RowFormat -> [[Cell]] -> [Value]
+splitMany fmt rows = concatMap (splitOne' $ expand fmt) rows
 
 -- todo: convert to unit test  
       
