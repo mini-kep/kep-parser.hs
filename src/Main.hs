@@ -1,7 +1,7 @@
 module Main where
 
 import qualified Table.Table as T
-import Table.Row (tup)
+-- import Table.Row (tup)
 
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Vector as V
@@ -26,7 +26,7 @@ toMatrix bytestring =
 --  Instead may use  
 --  http://hackage.haskell.org/package/cassava-0.5.1.0/docs/Data-Csv.html#g:4
 
-encode' x = encodeWith myEncodeOptions $ map tup x
+encode' = encodeWith myEncodeOptions -- $ map tup x
 
 -- Bottleneck: I convert from bytestrings to strings and Vector to []
 toStrings :: Either String ByteStringMatrix -> [[String]]
@@ -40,7 +40,7 @@ main = do
     -- parse CSV and coerce to string type     
     let k = (toStrings . toMatrix) s
     -- manipulate tables
-    let vs = (concatMap T.getValues) . T.makeTables $ k  
+    let vs = T.toTuples k  
     print vs
     -- write file 
     BL.writeFile "gdp.csv" $ encode' vs

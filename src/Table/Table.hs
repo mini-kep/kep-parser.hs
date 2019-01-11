@@ -1,9 +1,9 @@
-module Table.Table (getValues, makeTables, Value) where
+module Table.Table (toTuples) where
 
-import Table.Make (makeTables, Table(..))
-
-import Table.Row (splitMany, addLabel, Value, RowFormat)
-import Table.Header (getLabel)
+import Table.Make (makeTables)
+import Table.Types
+import Table.Row 
+import Table.Header
 
 getFormat :: Table -> RowFormat
 getFormat t = colToFormat $ ncol t 
@@ -26,6 +26,25 @@ colToFormat n = case n of
 nolabelValues :: Table -> [Value]
 nolabelValues t = splitMany (getFormat t) (datarows t)
 
-getValues :: Table -> [Value]
-getValues t = map labeller (nolabelValues t)
-    where labeller = addLabel (getLabel t)
+parseTable :: Table -> Variable
+parseTable t = Variable (tableLabel t) (nolabelValues t)
+
+isDefined :: Variable -> Bool
+isDefined (Variable (Label (Just _) (Just _)) _) = True
+isDefined _ = False
+
+asText :: Label -> String
+asText (Label (Just a) (Just b)) = a ++ "_" ++ b
+asText _ = "UNKNOWN"
+
+getValues :: Variable -> [DataTuple]
+getValues (Variable label values) = [(s, y, f, p, x) | (Value y f p x) <- values]
+    where s = asText label
+
+toTuples :: [[LocalString]] -> [DataTuple]
+toTuples = concatMap getValues . filter isDefined . map parseTable . makeTables
+
+h1 = [["ВВП", "", ""], ["% change to year earlier", "", ""]]       
+d1 = [["2017","100,6","102,5","102,2","100,9"], ["2018","101,3","101,9","101,5",""]]
+z = toTuples $ h1 ++ d1
+x = Variable (Label (Just "GDP") (Just "yoy")) [Value {year = "2017", freq = 'q', period = 1, amount = "100,6"},Value {year = "2017", freq = 'q', period = 2, amount = "102,5"},Value {year = "2017", freq = 'q', period = 3, amount = "102,2"}]
