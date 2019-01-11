@@ -98,7 +98,16 @@
 getValues :: Variable -> [DataTuple]
 getValues (Variable label values) = [(s, y, f, p, x) | (Value y f p x) <- values]
     where s = asText label
+
+Вопрос: здесь t вызовется один или два раза? Если два раза, то как сделать один?
+
 ```
+tableLabel :: Table -> Label
+tableLabel t = let s = title t in Label (getName s) (getUnit s)     
+``` 
+
+
+
 
 6. ```kep.exe tab.csv --definition=special.toml --no-empty-cells > output.csv```
 

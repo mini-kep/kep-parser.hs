@@ -20,4 +20,4 @@ title t = intercalate " " (headerLines t)
 
 tableLabel :: Table -> Label
 tableLabel t = let s = title t in Label (getName s) (getUnit s)         
--- Вопрос: здесь t вызовется один или два раза? Если два раза, то как сделать один?
+
