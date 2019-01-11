@@ -111,11 +111,12 @@ tableLabel t = let s = title t in Label (getName s) (getUnit s)
   Очень хотелось бы 1-2 текста запустить. Сейчас тестом является запуск 
   `Table/Table.hs` и `Main.hs`
 
-## Что делать дальше
+## Что планирую дальше
 
 - Читать реальные данные [tab.csv](https://raw.githubusercontent.com/mini-kep/parser-rosstat-kep/dev/data/interim/2018/07/tab.csv)
 
 - Посмотреть https://github.com/docopt/docopt.hs для опций типа
-  ```kep.exe tab.csv --definition=special.toml --no-empty-cells > output.csv```
+  
+```kep.exe tab.csv --definition=special.toml --no-empty-cells > output.csv```
 
 - Импортровать Map.hs из TOML файла (позволит добавить другие опции парсинга)
