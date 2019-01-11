@@ -98,18 +98,14 @@
 getValues :: Variable -> [DataTuple]
 getValues (Variable label values) = [(s, y, f, p, x) | (Value y f p x) <- values]
     where s = asText label
+```    
 
-Вопрос: здесь t вызовется один или два раза? Если два раза, то как сделать один?
+Аналогичный вопрос: здесь t вызовется один или два раза? Если два раза, то как сделать один?
 
 ```
 tableLabel :: Table -> Label
 tableLabel t = let s = title t in Label (getName s) (getUnit s)     
 ``` 
-
-
-
-
-6. ```kep.exe tab.csv --definition=special.toml --no-empty-cells > output.csv```
 
 ## Что не получается 
 
@@ -121,6 +117,7 @@ tableLabel t = let s = title t in Label (getName s) (getUnit s)
 
 - Читать реальные данные [tab.csv](https://raw.githubusercontent.com/mini-kep/parser-rosstat-kep/dev/data/interim/2018/07/tab.csv)
 
-- Посмотреть https://github.com/docopt/docopt.hs для опций
+- Посмотреть https://github.com/docopt/docopt.hs для опций типа
+  ```kep.exe tab.csv --definition=special.toml --no-empty-cells > output.csv```
 
 - Импортровать Map.hs из TOML файла (позволит добавить другие опции парсинга)
