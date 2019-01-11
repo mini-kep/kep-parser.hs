@@ -41,6 +41,6 @@ main = do
     let k = (toStrings . toMatrix) s
     -- manipulate tables
     let vs = T.toTuples k  
-    print vs
+    putStrLn $ unpack $ encode' vs
     -- write file 
     BL.writeFile "gdp.csv" $ encode' vs
