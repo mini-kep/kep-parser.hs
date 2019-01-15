@@ -12,7 +12,7 @@ import Map (Tag)
 
 type LocalString = String
 
-data Row = DataRow [String] | TextRow [String] deriving (Show)
+data Row = DataRow [LocalString] | TextRow [LocalString] deriving (Show)
 
 data Table = Table {
     headers :: [[LocalString]],
