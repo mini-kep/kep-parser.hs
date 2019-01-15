@@ -1,0 +1,3 @@
+-- move to test
+-- list' =  [["GDP"],["subtitle"],["2017","100,6"],["2018","101,3"],["CPI"],["1999","120,2"]]
+-- t' = makeTables list'

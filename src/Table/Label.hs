@@ -1,36 +1,16 @@
-module Table.Label (getName, getUnit, compose) where
+module Table.Label (makeFinder) where
 
 import Data.List (isInfixOf)
-import Map 
+import Map (nameMap, unitMap, Tag)
 
--- | Convert nameMap and unitMap to lists of tuples
-asTuples :: [Map] -> [(String, String)]
-asTuples maps = concatMap f maps
-    where f (Map label texts) = [(tx, label) | tx <- texts] ++ [(label, label)]
+findAll :: [(String, Tag)]  -> String -> [String]
+findAll mapper header = [label | (text, label) <- mapper, text `isInfixOf` header]
 
-findAll :: [(String, String)] -> String -> [String]
-findAll mapper header = [lab | (tx, lab) <- mapper, tx `isInfixOf` header]
-
--- Assumption: will use just first match and ignore any other matches                                 
+-- | Will use just first match and ignore any other matches                                 
+findFirst :: [(String, Tag)]  -> String -> Maybe Tag 
 findFirst mapper header = case findAll mapper header of 
     [] -> Nothing
     (x:_) -> Just x  
 
-makeFinder map = \header -> findFirst (asTuples map) header 
-getName = makeFinder nameMap
-getUnit = makeFinder unitMap
-
-compose :: Maybe String -> Maybe String -> String
-compose (Just name) (Just unit) = name ++ "_" ++ unit
-compose Nothing (Just unit)     = "^" ++ unit
-compose (Just name) Nothing     = name ++ "^"
-compose _ _                     = "UNKNOWN"
-
-
--- -- move to test
--- main :: IO ()
--- main = do 
---     Microtest.eq (Just "GDP") (getName title)
---     Microtest.eq (Just "rog") (getUnit title)
---     where 
---         title = "Gross domestic product, % change to previous period"
+makeFinder :: [(String, Tag)] -> (String -> Maybe Tag)
+makeFinder tags = \header -> findFirst tags header 

@@ -1,27 +1,23 @@
-module Table.Header (getLabel) where
+module Table.Header where
 
 import Data.List (intercalate)
-import Table.Make (Table(..))
-import qualified Table.Label as Label    
 
-headerLines :: Table -> [String]
+import Table.Types
+import Table.Label (makeFinder)
+import Map (nameMap, unitMap)
+
+getName :: String -> Maybe Tag
+getName = makeFinder nameMap
+
+getUnit :: String -> Maybe Tag
+getUnit = makeFinder unitMap
+
+headerLines :: Table -> [LocalString]
 headerLines t = map (intercalate " ") (headers t)
 
-title :: Table -> String
+title :: Table -> LocalString
 title t = intercalate " " (headerLines t)
 
-name :: Table -> Maybe String
-name t = Label.getName $ title t
+tableLabel :: Table -> Label
+tableLabel t = let s = title t in Label (getName s) (getUnit s)         
 
-unit :: Table -> Maybe String
-unit t = Label.getUnit $ title t
-
-isJust          :: Maybe a -> Bool
-isJust (Just _) = True
-isJust _        = False
-
---isDefined :: Table -> Bool
---isDefined t = isJust (name t) && isJust (unit t)
-
-getLabel :: Table -> String
-getLabel t = Label.compose (name t) (unit t)
