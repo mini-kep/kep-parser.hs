@@ -32,6 +32,7 @@ encode' = encodeWith myEncodeOptions -- $ map tup x
 toStrings :: Either String ByteStringMatrix -> [[String]]
 toStrings (Right v) = V.toList $ V.map (V.toList . (V.map unpack)) v 
 toStrings (Left m) = error m
+-- fmap!
 
 main = do
     -- read data from file 
