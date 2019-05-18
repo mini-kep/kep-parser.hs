@@ -48,3 +48,17 @@ h1 = [["ВВП", "", ""], ["% change to year earlier", "", ""]]
 d1 = [["2017","100,6","102,5","102,2","100,9"], ["2018","101,3","101,9","101,5",""]]
 z = toTuples $ h1 ++ d1
 x = Variable (Label (Just "GDP") (Just "yoy")) [Value {year = "2017", freq = 'q', period = 1, amount = "100,6"},Value {year = "2017", freq = 'q', period = 2, amount = "102,5"},Value {year = "2017", freq = 'q', period = 3, amount = "102,2"}]
+
+-- EP: Here is where I start reading about applicative vs monadic parsers.
+-- https://habr.com/ru/post/436234/
+-- https://stackoverflow.com/questions/7861903/what-are-the-benefits-of-applicative-parsing-over-monadic-parsing
+-- iffy-miffy (good!): https://stackoverflow.com/a/7042674/1758363
+
+-- More to read:
+-- https://two-wrongs.com/parser-combinators-parsing-for-haskell-beginners.html
+-- https://habr.com/ru/post/50337/
+-- https://www.futurelearn.com/courses/functional-programming-haskell/0/steps/27222
+-- https://two-wrongs.com/parser-combinators-parsing-for-haskell-beginners.html
+
+
+
