@@ -2,8 +2,6 @@
 -- Abrahamson
 
 
-
-
 type Error = String
 newtype Parser a = P { unP :: String -> (String, Either Error a) }
 
