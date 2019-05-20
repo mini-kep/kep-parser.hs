@@ -7,6 +7,7 @@
 --
 -- Eli Bendersky [http://eli.thegreenplace.net]
 -- This code is in the public domain.
+
 import Control.Applicative
 import Data.Char
 
@@ -15,11 +16,17 @@ newtype Parser a = P (String -> [(a,String)])
 parse :: Parser a -> String -> [(a,String)]
 parse (P p) inp = p inp
 
+useG g p inp = case parse p inp of
+  []        -> []
+  [(v,out)] -> [(g v,out)]
+
+
 instance Functor Parser where
   -- fmap :: (a -> b) -> Parser a -> Parser b
-  fmap g p = P (\inp -> case parse p inp of
-                          []        -> []
-                          [(v,out)] -> [(g v,out)])
+  fmap g p = P $ useG g p
+  -- fmap g p = P (\inp -> case parse p inp of
+  --                        []        -> []
+  --                        [(v,out)] -> [(g v,out)])
 
 instance Applicative Parser where
   -- pure :: a -> Parser a
