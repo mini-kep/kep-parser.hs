@@ -1,3 +1,19 @@
+-- EP playfile, do not run
+
+newtype State a = State ((Maybe a) String)
+
+newtype Parser a = P (String -> [(a,String)])
+
+parse :: Parser a -> String -> [(a,String)]
+parse (P p) inp = p inp
+
+instance Functor Parser where
+  -- fmap :: (a -> b) -> Parser a -> Parser b
+  fmap g p = P (\inp -> case parse p inp of
+                          []        -> []
+                          [(v,out)] -> [(g v,out)])
+
+
 -- type ParseOperation = String -> [(a,String)] 
 
 newtype StateT s m a = StateT { runStateT :: s -> m (a,s) }
