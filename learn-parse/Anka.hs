@@ -4,17 +4,17 @@
 -- #ParserCombinators
 -- Example:
 
--- parse parens “(()(()()))”
+-- parse parens "(()(()()))"
 -- T [T [], T [T [], T []]]
 
 import Control.Monad.State
 import Control.Applicative
 import Data.List
 
-data T = T [T]
+data T = T [T] deriving Show
 type Parser = StateT String Maybe
 
-ch :: Parser Char
+ch :: Char -> Parser Char
 ch c = mfilter (== c) $ StateT uncons
 
 parens :: Parser T
